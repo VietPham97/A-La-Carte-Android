@@ -10,6 +10,7 @@ import com.viethpham.menudessert.sample.SampleDataProvider;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -22,15 +23,15 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // display all item name on the app
-        for (DataItem item : dataItemList)
-        {
-            itemNames.add(item.getItemName());
-        }
-        Collections.sort(itemNames);
+        // sort the dataItemList based on the item name
+        Collections.sort(dataItemList, new Comparator<DataItem>() {
+            @Override
+            public int compare(DataItem o1, DataItem o2) {
+                return o1.getItemName().compareTo(o2.getItemName());
+            }
+        });
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(
-                this, android.R.layout.simple_list_item_1, itemNames);
+        DataItemAdapter adapter = new DataItemAdapter(this, dataItemList);
 
         ListView listView = findViewById(android.R.id.list);
         listView.setAdapter(adapter);
