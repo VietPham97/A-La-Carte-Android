@@ -1,5 +1,7 @@
 package com.viethpham.alacarte.model;
 
+import java.util.UUID;
+
 public class DataItem
 {
     // make all fields primitive and String to help sharing value with the rest of this app easier
@@ -15,7 +17,13 @@ public class DataItem
     }
 
     public DataItem(String itemId, String itemName, String description, String category,
-                    int sortPosition, double price, String image) {
+                    int sortPosition, double price, String image)
+    {
+        // if creating a new object and it doesnt have a unique id, assign it right now
+        if (itemId == null) {
+            itemId = UUID.randomUUID().toString();
+        }
+
         this.itemId = itemId;
         this.itemName = itemName;
         this.description = description;
