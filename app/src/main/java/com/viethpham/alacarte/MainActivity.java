@@ -2,6 +2,7 @@ package com.viethpham.alacarte;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 import android.widget.ListView;
 
 import com.viethpham.alacarte.model.DataItem;
@@ -30,9 +31,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DataItemAdapterListView adapter = new DataItemAdapterListView(this, dataItemList);
+        DataItemAdapter adapter = new DataItemAdapter(this, dataItemList);
 
-        ListView listView = findViewById(android.R.id.list);
-        listView.setAdapter(adapter);
+        RecyclerView recyclerView = findViewById(R.id.rvItems);
+        recyclerView.setAdapter(adapter);
     }
 }
