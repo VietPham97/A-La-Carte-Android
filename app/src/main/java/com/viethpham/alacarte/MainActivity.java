@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        DataItemAdapter adapter = new DataItemAdapter(this, dataItemList);
+        DataItemAdapterListView adapter = new DataItemAdapterListView(this, dataItemList);
 
         ListView listView = findViewById(android.R.id.list);
         listView.setAdapter(adapter);

@@ -2,10 +2,10 @@ package com.viethpham.alacarte;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -15,61 +15,53 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-public class DataItemAdapter extends ArrayAdapter<DataItem>
-{
-    List<DataItem> dataItemList;
-    LayoutInflater layoutInflater;
+public class DataItemAdapter extends RecyclerView.Adapter<DataItemAdapter.ViewHolder> {
 
-    public DataItemAdapter(Context context, List<DataItem> objects)
-    {
-        super(context, R.layout.list_item, objects);
+    private List<DataItem> mItems;
+    private Context mContext;
 
-        dataItemList = objects;
-        layoutInflater = LayoutInflater.from(context);
+    public DataItemAdapter(Context context, List<DataItem> items) {
+        this.mContext = context;
+        this.mItems = items;
     }
 
-    /**
-     * Each time the arrayAdapter encounters a new data item and want to display the data, it looks for getView method
-     * @param position: is the position of the current data item in the data set - dataItemList
-     * @param convertView: a reference to a layout, might or might not be null depends on
-     *                   the adapter is recycling a view for a list row(not null) or first time running(null).
-     */
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
-    {
-        if (convertView == null) {
-            convertView = layoutInflater.inflate(R.layout.list_item, parent, false);
-        }
+    public DataItemAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View itemView = inflater.inflate(R.layout.list_item, parent, false);
+        ViewHolder viewHolder = new ViewHolder(itemView);
+        return viewHolder;
+    }
 
-        TextView tvName = convertView.findViewById(R.id.itemNameText);
-        ImageView imageView = convertView.findViewById(R.id.imageView);
+    @Override
+    public void onBindViewHolder(DataItemAdapter.ViewHolder holder, int position) {
+        DataItem item = mItems.get(position);
 
-        DataItem item = dataItemList.get(position);
-
-        tvName.setText(item.getItemName());
-
-        InputStream inputStream = null;
         try {
+            holder.tvName.setText(item.getItemName());
             String imageFile = item.getImage();
-            inputStream = getContext().getAssets().open(imageFile);
+            InputStream inputStream = mContext.getAssets().open(imageFile);
             Drawable d = Drawable.createFromStream(inputStream, null);
-            imageView.setImageDrawable(d);
-        }
-        catch (IOException e)
-        {
+            holder.imageView.setImageDrawable(d);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        finally
-        {
-            try {
-                if (inputStream != null) {
-                    inputStream.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    }
 
-        return convertView;
+    @Override
+    public int getItemCount() {
+        return mItems.size();
+    }
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        public TextView tvName;
+        public ImageView imageView;
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            tvName = (TextView) itemView.findViewById(R.id.itemNameText);
+            imageView = (ImageView) itemView.findViewById(R.id.imageView);
+        }
     }
 }
