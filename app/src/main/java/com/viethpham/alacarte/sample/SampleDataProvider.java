@@ -7,8 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-// Get sample datas from: git.io/viuDI
-
 public class SampleDataProvider
 {
     public static List<DataItem> dataItemList;

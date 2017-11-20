@@ -18,7 +18,7 @@ public class DataItem implements Parcelable {
     public DataItem() {
     }
 
-    public DataItem(String itemId, String itemName, String description, String category,
+    public DataItem(String itemId, String itemName, String category, String description,
                     int sortPosition, double price, String image)
     {
         // if creating a new object and it doesnt have a unique id, assign it right now
